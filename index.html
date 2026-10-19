@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827"><title>С нуля до магната — Империя</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">♛</div><div><b>МАГНАТ</b><small>Построй свою империю</small></div></div>
+    <div class="top-actions"><button id="helpBtn" class="icon-btn" title="Как играть">❔</button><button id="saveBtn" class="icon-btn" title="Сохранить">💾</button><button id="settingsBtn" class="icon-btn" title="Настройки">⚙️</button></div>
+  </header>
+  <section class="hero panel">
+    <div class="hero-copy"><div class="eyebrow">ТВОЯ ИСТОРИЯ УСПЕХА</div><h1>От первой монеты<br>до <span>бизнес-империи</span></h1><p>Принимай решения, открывай компании, нанимай команду и меняй облик города.</p><div class="hero-buttons"><button id="collectBtn" class="btn btn-green">Забрать прибыль <span>↗</span></button><span id="boostLabel" class="boost-label">⏱ Доход идёт даже офлайн</span></div></div>
+    <div class="city-art" aria-hidden="true"><div class="sun"></div><div class="skyline"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="floating-coin">₽</div><div class="arrow-up">↗</div></div>
+  </section>
+  <section class="resource-grid">
+    <div class="resource money"><div class="resource-label">💰 Капитал</div><strong id="money">₽ 500</strong><small id="cashflow">+₽ 0 / мин</small></div>
+    <div class="resource"><div class="resource-label">⭐ Уровень</div><strong id="level">1</strong><div class="xp"><i id="xpBar"></i></div><small id="xpText">0 / 100 опыта</small></div>
+    <div class="resource"><div class="resource-label">🏆 Репутация</div><strong id="rep">0</strong><small id="rank">Начинающий</small></div>
+    <div class="resource"><div class="resource-label">💎 Престиж</div><strong id="prestige">0</strong><small>Очки империи</small></div>
+  </section>
+  <nav class="nav" id="nav">
+    <button class="nav-btn active" data-view="dashboard">🏠 <span>Обзор</span></button>
+    <button class="nav-btn" data-view="business">🏪 <span>Бизнес</span></button>
+    <button class="nav-btn" data-view="city">🌆 <span>Город</span></button>
+    <button class="nav-btn" data-view="research">🧪 <span>Наука</span></button>
+    <button class="nav-btn" data-view="missions">🎯 <span>Задания</span></button>
+    <button class="nav-btn" data-view="empire">👑 <span>Империя</span></button>
+  </nav>
+  <main>
+    <section class="view active" id="view-dashboard">
+      <div class="section-head"><div><div class="eyebrow">ПУЛЬТ УПРАВЛЕНИЯ</div><h2>Твой бизнес сегодня</h2></div><span class="chip" id="dayChip">День 1</span></div>
+      <div class="dashboard-grid">
+        <article class="panel welcome-card"><div class="card-emoji">🤝</div><div><h3 id="welcomeTitle">Добро пожаловать, босс!</h3><p id="welcomeText">Начни с лимонадного киоска. Маленький бизнес — первый шаг к большой цели.</p></div><button class="btn btn-green" data-goto="business">Выбрать бизнес →</button></article>
+        <article class="panel daily-card"><div class="daily-top"><div><div class="eyebrow">БОНУС ДНЯ</div><h3>Ежедневная награда</h3></div><span class="daily-gift">🎁</span></div><p id="dailyDescription">Заглядывай каждый день за подарком.</p><button id="dailyBtn" class="btn btn-gold">Забрать награду</button><small id="streakText">Серия входов: 0 дней</small></article>
+      </div>
+      <div class="section-head compact-head"><div><div class="eyebrow">БЫСТРЫЕ РЕШЕНИЯ</div><h2>Что делать дальше?</h2></div></div>
+      <div id="nextActions" class="action-grid"></div>
+      <div class="section-head compact-head"><div><div class="eyebrow">ПОСЛЕДНИЕ СОБЫТИЯ</div><h2>Журнал компании</h2></div><button class="text-btn" data-goto="missions">Все цели →</button></div>
+      <div id="eventLog" class="event-log"></div>
+      <div class="section-head compact-head"><div><div class="eyebrow">ТВОЯ СЕТЬ</div><h2>Главные компании</h2></div><button class="text-btn" data-goto="business">Все бизнесы →</button></div>
+      <div id="featuredBusinesses" class="business-grid"></div>
+    </section>
+    <section class="view" id="view-business">
+      <div class="section-head"><div><div class="eyebrow">ПОКУПАЙ · УЛУЧШАЙ · МАСШТАБИРУЙ</div><h2>Каталог бизнеса</h2><p class="subhead">Каждая компания приносит доход каждую секунду.</p></div><span class="chip" id="businessCount">0 компаний</span></div>
+      <div class="filter-row" id="businessFilters"><button class="filter active" data-filter="all">Все</button><button class="filter" data-filter="owned">Мои</button><button class="filter" data-filter="available">Доступные</button><button class="filter" data-filter="locked">Заблокированы</button></div>
+      <div id="businessCatalog" class="business-grid"></div>
+    </section>
+    <section class="view" id="view-city">
+      <div class="section-head"><div><div class="eyebrow">ТВОЯ ПЛОЩАДКА ДЛЯ РОСТА</div><h2>Город возможностей</h2><p class="subhead">Развивай районы, повышай репутацию и открывай новые бонусы.</p></div><span class="chip">🗺️ Город</span></div>
+      <div class="city-map panel"><div class="map-sky"></div><div class="map-buildings"><span>🏪</span><span>🏬</span><span>🏢</span><span>🏨</span><span>🏭</span><span>🏙️</span></div><div class="map-road"></div><div class="map-caption"><b>Магнат-Сити</b><small id="cityCaption">Небольшой район ждёт своего инвестора</small></div></div>
+      <div id="districts" class="district-grid"></div>
+      <div class="section-head compact-head"><div><div class="eyebrow">ОБЩЕСТВЕННЫЙ ИМИДЖ</div><h2>Репутация и реклама</h2></div></div>
+      <div class="panel promo-panel"><div class="promo-icon">📣</div><div class="promo-copy"><h3>Запустить рекламную кампанию</h3><p>Потрать деньги сейчас, чтобы увеличить доход на 15% на 10 минут.</p><small id="promoStatus">Кампания не активна</small></div><button class="btn btn-green" id="promoBtn">₽ 2 000</button></div>
+    </section>
+    <section class="view" id="view-research">
+      <div class="section-head"><div><div class="eyebrow">ЗНАНИЯ ПРЕВРАЩАЮТСЯ В ПРИБЫЛЬ</div><h2>Лаборатория идей</h2><p class="subhead">Трать очки науки, чтобы открыть постоянные бонусы.</p></div><span class="chip">🧬 <b id="sciencePoints">0</b> науки</span></div>
+      <div class="research-summary panel"><div class="research-symbol">🧠</div><div><h3>Инвестируй в будущее</h3><p>Очки науки выдаются за уровни и некоторые задания. Выбирай развитие под свою стратегию.</p></div></div>
+      <div id="researchTree" class="research-grid"></div>
+      <div class="section-head compact-head"><div><div class="eyebrow">ОПЕРАЦИОННАЯ ЭФФЕКТИВНОСТЬ</div><h2>Команда и менеджмент</h2></div></div>
+      <div id="staffList" class="staff-grid"></div>
+    </section>
+    <section class="view" id="view-missions">
+      <div class="section-head"><div><div class="eyebrow">КАЖДЫЙ ШАГ ИМЕЕТ ЗНАЧЕНИЕ</div><h2>Цели и достижения</h2><p class="subhead">Выполняй задания, забирай награды и открывай новые возможности.</p></div><span class="chip" id="missionCount">0 выполнено</span></div>
+      <div class="mission-tabs"><button class="filter active" data-mission-tab="quests">Задания</button><button class="filter" data-mission-tab="achievements">Достижения</button></div>
+      <div id="questList" class="mission-list"></div><div id="achievementList" class="mission-list hidden"></div>
+      <div class="panel event-panel"><div class="event-big">🎲</div><div class="event-copy"><div class="eyebrow">СЛУЧАЙНОЕ СОБЫТИЕ</div><h3 id="eventTitle">Рынок полон возможностей</h3><p id="eventText">Каждые несколько минут в городе происходят события. Следи за журналом!</p></div><button id="eventBtn" class="btn btn-gold">Проверить</button></div>
+    </section>
+    <section class="view" id="view-empire">
+      <div class="section-head"><div><div class="eyebrow">СЛЕДУЮЩАЯ ГЛАВА</div><h2>Империя и престиж</h2><p class="subhead">Когда станешь достаточно богатым, можно начать новую карьеру с постоянными бонусами.</p></div><span class="chip">👑 Перерождение</span></div>
+      <div class="prestige-hero panel"><div class="prestige-art">👑</div><div><div class="eyebrow">СИСТЕМА ПРЕСТИЖА</div><h3>Большие игроки начинают заново — но сильнее</h3><p>Перезапусти текущую карьеру и получи очки престижа, увеличивающие доход навсегда. Бизнесы и деньги сбросятся.</p><div class="prestige-payout">Предварительная награда: <b id="prestigeGain">0</b> 💎</div><button id="prestigeBtn" class="btn btn-gold">Открыть новую главу</button></div></div>
+      <div class="section-head compact-head"><div><div class="eyebrow">ТВОИ РЕКОРДЫ</div><h2>Статистика империи</h2></div></div><div id="statsGrid" class="stats-grid"></div>
+      <div class="panel save-panel"><div class="save-icon">💾</div><div><h3>Сохранение прогресса</h3><p>Игра сохраняет данные в этом браузере. Экспортируй копию перед очисткой данных или переносом на другое устройство.</p></div><button class="btn btn-outline" id="exportBtn">Экспорт</button></div>
+    </section>
+  </main>
+  <footer>Сделано для будущего магната <span>✦</span> Играй с умом, расти смело.</footer>
+</div>
+<section id="introScreen" class="intro-screen" aria-modal="true" role="dialog" aria-labelledby="introTitle">
+  <div class="intro-orb orb-one"></div><div class="intro-orb orb-two"></div>
+  <div class="intro-card">
+    <div class="intro-brand"><span class="intro-crown">♛</span><span>МАГНАТ <small>ИМПЕРИЯ</small></span><span class="intro-version">ВЕРСИЯ 2.1</span></div>
+    <div class="intro-city" aria-hidden="true"><span>🏙️</span><span>🏢</span><span>🏬</span><span>🏦</span><span>🏭</span><b>↗</b><i>✦</i></div>
+    <div class="eyebrow">ТВОЯ ИСТОРИЯ НАЧИНАЕТСЯ ЗДЕСЬ</div>
+    <h1 id="introTitle">Из первой монеты<br>в <span>бизнес-легенду</span></h1>
+    <p class="intro-lead">Ты начинаешь с небольшого капитала. Твоя задача — строить компании, усиливать команду и превратить маленький бизнес в огромную империю.</p>
+    <div class="intro-steps">
+      <article><span>01</span><div><b>Зарабатывай</b><small>Купи первый бизнес — он будет приносить деньги со временем.</small></div><i>💰</i></article>
+      <article><span>02</span><div><b>Развивайся</b><small>Улучшай компании, нанимай сотрудников и открывай технологии.</small></div><i>🚀</i></article>
+      <article><span>03</span><div><b>Покоряй город</b><small>Выполняй задания, открывай районы и повышай свой уровень.</small></div><i>🌆</i></article>
+    </div>
+    <div class="intro-tip"><span>💡</span><p><b>Совет новичку</b><br>Начни во вкладке «Бизнес». Покупай доступные компании, а награды и ежедневный бонус помогут быстрее расти.</p></div>
+    <button id="startGameBtn" class="btn btn-green intro-start">Начать строить империю <span>→</span></button>
+    <button id="introLaterBtn" class="intro-later">Я уже знаю, как играть</button>
+    <small class="intro-foot">Прогресс хранится в браузере на этом устройстве</small>
+  </div>
+</section>
+<div id="toast" class="toast"></div>
+<dialog id="settingsDialog" class="modal"><div class="modal-head"><div><div class="eyebrow">ПАРАМЕТРЫ</div><h2>Настройки игры</h2></div><button id="closeSettings" class="icon-btn">✕</button></div><p>Прогресс сохраняется в браузере на этом устройстве. Для переноса используй экспорт сохранения.</p><button id="modalExport" class="btn btn-outline full">Скачать резервную копию</button><button id="resetBtn" class="btn btn-danger full">Сбросить весь прогресс</button><small>Версия 2.0 · прототип без серверного аккаунта</small></dialog>
+<script src="game.js"></script>
+</body></html>
